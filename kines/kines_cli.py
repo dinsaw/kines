@@ -29,7 +29,7 @@ def lss(stream_name: str, only_open_shards: bool, detailed: bool):
 @click.option('-p', '--partition-key', required=True, multiple=True, help='Partition Key')
 @click.option('-o', '--open-shards', is_flag=True, help='Only show results for Open Shards')
 @kines.command()
-def grep(stream_name: str, partition_key: str, open_shards: bool):
+def find(stream_name: str, partition_key: str, open_shards: bool):
     """Find shard for Partition Keys"""
     partition_key_util.find_shard(stream_name, partition_key, open_shards)
 

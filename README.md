@@ -61,9 +61,9 @@ Using boto3 version 1.9.230
 
 
 ##### Find shard for partition key
-- `kines grep -s prod-clickstream -p 123455 -p 8900`
+- `kines find -s prod-clickstream -p 123455 -p 8900`
 ```commandline
-> kines grep -s prod-clickstream -p 123455 -p 8900
+> kines find -s prod-clickstream -p 123455 -p 8900
 Using boto3 version 1.9.230
 ┌──────────────┬──────────────────────────────────┬─────────────────────────────────────────┬─────────────────┐
 │ PartitionKey │ MD5PartitionKey                  │ HashKey                                 │ ShardId         │

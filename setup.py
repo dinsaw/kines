@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="kines",
-    version="0.0.3",
+    version="0.0.4",
     author="Dinesh Sawant",
     author_email="dineshsawant300@gmail.com",
     description="Friendly Amazon Kinesis Stream Command Line Interface",
