@@ -23,8 +23,8 @@ Status - Stream = Stream with Status. # = OpenShardCount. 👥 = EnhancedConsume
 └──────────────────────────────────────┴───┴────┴────┴──────┘
 ```
 
-##### List all Kinesis Stream
-- `kines ls <stream-name>`
+##### List Kinesis Stream Shards
+- `kines lss -s <stream-name>`
 ```commandline
 > kines lss -s prod-clickstream
 Using boto3 version 1.9.230
@@ -41,7 +41,7 @@ Using boto3 version 1.9.230
 │ 📖 000000000014 │ 000000000006  │                       │ 12.5%          │
 └─────────────────┴───────────────┴───────────────────────┴────────────────┘
 ```
-- For detailed output `kines ls <stream-name> -d`
+- For detailed output `kines lss -s <stream-name> -d`
 ```commandline
 > kines lss -s prod-clickstream -d
 Using boto3 version 1.9.230
