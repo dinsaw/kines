@@ -24,7 +24,6 @@ LIST_STREAM_FULL_HEADERS = [
 
 
 def list_streams(name_filter="", full_form=False):
-    print(f'Using boto3 version {boto3.__version__}')
     kinesis_client = boto3.client('kinesis')
 
     headers = LIST_STREAM_SHORT_HEADERS
@@ -36,10 +35,7 @@ def list_streams(name_filter="", full_form=False):
 
     if full_form:
         headers = LIST_STREAM_FULL_HEADERS
-    else:
-        for idx, h in enumerate(headers):
-            print(f'{h} = {LIST_STREAM_FULL_HEADERS[idx]}', end='. ')
-        print()
+
     table_data = [headers]
 
     for stream_name in stream_names:
@@ -59,3 +55,13 @@ def list_streams(name_filter="", full_form=False):
 
     table = SingleTable(table_data)
     print(table.table)
+
+
+def print_legends(separator='. '):
+    for idx, h in enumerate(LIST_STREAM_SHORT_HEADERS):
+        print(f'{h} = {LIST_STREAM_FULL_HEADERS[idx]}', end=separator)
+    print()
+
+    for k, v in common.STREAM_STATUS_ICON_MAP.items():
+        print(f'{v} = {k} Stream Status', end=separator)
+    print()

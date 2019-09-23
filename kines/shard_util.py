@@ -4,7 +4,6 @@ from terminaltables import SingleTable
 
 
 def display_shard_table(stream_name, only_open_shards, detailed):
-    print(f'Using boto3 version {boto3.__version__}')
     kinesis_client = boto3.client('kinesis')
 
     shards = kinesis_client.list_shards(StreamName=stream_name)

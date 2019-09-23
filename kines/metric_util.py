@@ -49,16 +49,11 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
     start_time = (datetime.datetime.utcnow() - datetime.timedelta(hours=past_hours)).replace(minute=0, second=0)
     end_time = datetime.datetime.utcnow()
 
-    print(f'Using boto3 version {boto3.__version__}')
     cloudwatch_client = boto3.client('cloudwatch')
     headers = REPORT_SHORT_HEADERS
 
     if full_form:
         headers = REPORT_FULL_HEADERS
-    else:
-        for idx, h in enumerate(headers):
-            print(f'{h} = {REPORT_FULL_HEADERS[idx]}', end='. ')
-        print()
 
     table_data = [headers]
     response = cloudwatch_client.get_metric_data(
@@ -111,6 +106,12 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
 
     table = SingleTable(table_data)
     print(table.table)
+
+
+def print_legends(separator='. '):
+    for idx, h in enumerate(REPORT_SHORT_HEADERS):
+        print(f'{h} = {REPORT_FULL_HEADERS[idx]}', end=separator)
+    print()
 
 
 def get_or_default(array, walk_through_count, default_value=0):

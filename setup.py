@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="kines",
-    version="0.0.5",
+    version="0.0.6",
     author="Dinesh Sawant",
     author_email="dineshsawant300@gmail.com",
     description="Friendly Amazon Kinesis Stream Command Line Interface",
@@ -22,11 +22,8 @@ setuptools.setup(
     py_modules=['kines_cli'],
     install_requires=[
         'Click',
-        'timeago',
         'boto3',
         'terminaltables',
-        'matplotlib',
-        'termgraph',
     ],
     entry_points='''
         [console_scripts]

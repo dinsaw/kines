@@ -7,7 +7,6 @@ kinesis_client = boto3.client('kinesis')
 
 
 def find_shard(stream_name, partition_keys, only_open_shards):
-    print(f'Using boto3 version {boto3.__version__}')
     table_data = [
         [
             'PartitionKey',

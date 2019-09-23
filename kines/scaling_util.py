@@ -4,7 +4,6 @@ import time
 
 
 def scale_up(stream_name):
-    print(f'Using boto3 version {boto3.__version__}')
     kinesis_client = boto3.client('kinesis')
 
     open_shards = get_open_shards(kinesis_client, stream_name)
@@ -43,7 +42,6 @@ def get_open_shards(kinesis_client, stream_name):
 
 
 def scale_down(stream_name):
-    print(f'Using boto3 version {boto3.__version__}')
     kinesis_client = boto3.client('kinesis')
 
     open_shards = get_open_shards(kinesis_client, stream_name)
