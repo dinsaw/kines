@@ -1,6 +1,8 @@
 ## Kines
 Friendly Amazon Kinesis Stream Command Line Interface
 
+![Kines Demo](demo/kines-demo.gif)
+
 #### Install
 - `pip install kines`
 
