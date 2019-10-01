@@ -29,7 +29,13 @@ Friendly Amazon Kinesis Stream Command Line Interface
 #### Get report for your Kinesis Stream
 - `kines report <stream-name> -h <number-of-hours> -p <metric-period-in-minutes>`
 
+- Get report for last 3 hours with an 10 minutes metric period
+
 ![Kines Report](demo/kines-report.png)
+
+- Get report for last 60 hours with an 6 hours metric period
+
+![Kines Report 60 hours 6 hours](demo/kines-report-h-60-p-60.png)
 
 #### View all short forms and legends
 - `kines legends`
