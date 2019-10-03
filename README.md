@@ -1,5 +1,5 @@
 ## Kines
-Friendly Amazon Kinesis Stream Command Line Interface
+Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/)
 
 ![Kines Demo](demo/kines-demo.gif)
 
