@@ -7,7 +7,7 @@ from kines import partition_key_util, metric_util, stream_util, shard_util
 
 @click.group()
 def kines():
-    """Friendly Amazon Kinesis Stream Command Line Interface"""
+    """Friendly Command Line Interface for Amazon Kinesis Data Streams"""
 
 
 @kines.command()
@@ -48,6 +48,8 @@ def legends():
     """View all legends / short forms used"""
     metric_util.print_legends('\n')
     stream_util.print_legends('\n')
+    shard_util.print_legends('\n')
+
 
 
 # @click.option('-s', '--stream-name', required=True, help='Kinesis Stream Name')

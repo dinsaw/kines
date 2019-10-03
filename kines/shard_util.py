@@ -50,3 +50,8 @@ def display_shard_table(stream_name, only_open_shards, detailed):
 
 def cal_range_percentage(starting_hash_key, ending_hash_key):
     return ((int(ending_hash_key) - int(starting_hash_key)) / common.MAX_RANGE) * 100
+
+
+def print_legends(separator='. '):
+    print(f'{common.CLOSED_ICON} = Closed Shard', end=separator)
+    print(f'{common.OPEN_ICON} = Open Shard', end=separator)

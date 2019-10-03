@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="kines",
-    version="0.0.6",
+    version="0.0.8",
     author="Dinesh Sawant",
     author_email="dineshsawant300@gmail.com",
-    description="Friendly Amazon Kinesis Stream Command Line Interface",
+    description="Friendly Command Line Interface for Amazon Kinesis Data Streams",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dinsaw/kines",
