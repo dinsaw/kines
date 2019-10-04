@@ -10,7 +10,7 @@ STREAM_STATUS_ICON_MAP = {
     'CREATING': '⛏ ',
     'DELETING': '❌ ',
     'ACTIVE': '⛹ ',
-    'UPDATING': '⚒ ',
+    'UPDATING': '🛠️ ',
 }
 
 RETENTION_PERIOD_ICON = '🕑'
