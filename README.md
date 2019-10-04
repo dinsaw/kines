@@ -1,7 +1,7 @@
 ## Kines
 Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/)
 
-![Kines Demo](demo/kines-demo.gif)
+![Kines Demo](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-demo.gif)
 
 #### Install
 - `pip install kines`
@@ -13,34 +13,38 @@ Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.am
 ##### List all Kinesis Stream
 - `kines ls`
 
-![Kines ls](demo/kines-ls.png)
+![Kines ls](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-ls.png)
 
 ##### List Kinesis Stream Shards
 - `kines lss <stream-name>`
 - For detailed output Run `kines lss <stream-name> -d`
 
-![Kines lss](demo/kines-lss-and-d.png)
+![Kines lss](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-lss-and-d.png)
+
+##### List Kinesis Stream Shards
+- `kines lss <stream-name>`
+- For detailed output Run `kines lss <stream-name> -d`
+
+![Kines lss](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-lss-and-d.png)
 
 ##### Find shard for partition key
 - `kines find prod-clickstream -p 123455 -p 8900`
 
-![Kines find](demo/kines-find.png)
+![Kines find](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-find.png)
 
-#### Get report for your Kinesis Stream
-- `kines report <stream-name> -h <number-of-hours> -p <metric-period-in-minutes>`
+#### Walk through kinesis records
+- `kines walk <stream-name> <shard-id> -s <sequence-number> -n <number-of-records-per-call>`
 
-- Get report for last 3 hours with 10 minute metric period
-
-![Kines Report](demo/kines-report.png)
+![Kines Walk](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-walk-demo.gif)
 
 - Get report for last 60 hours with 6 hour metric period
 
-![Kines Report 60 hours 6 hours](demo/kines-report-h-60-p-60.png)
+![Kines Report 60 hours 6 hours](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-report-h-60-p-60.png)
 
 #### View all short forms and legends
 - `kines legends`
 
-![Kines Legends](demo/kines-legends.png)
+![Kines Legends](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-legends.png)
 
 #### How to build in Dev?
 - `pip install --editable .`
