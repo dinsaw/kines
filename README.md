@@ -21,12 +21,6 @@ Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.am
 
 ![Kines lss](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-lss-and-d.png)
 
-##### List Kinesis Stream Shards
-- `kines lss <stream-name>`
-- For detailed output Run `kines lss <stream-name> -d`
-
-![Kines lss](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-lss-and-d.png)
-
 ##### Find shard for partition key
 - `kines find prod-clickstream -p 123455 -p 8900`
 
