@@ -8,6 +8,7 @@ python:
   
 install:
   - pip install pytest pytest-cov
+  - pip install --editable .
 
 script:
   - pytest --cov=./
