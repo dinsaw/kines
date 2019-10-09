@@ -1,5 +1,5 @@
 ## Kines
-[![PyPI version](https://img.shields.io/pypi/v/kines.svg)](https://badge.fury.io/py/kines)
+[![PyPI version](https://img.shields.io/pypi/v/kines.svg)](https://badge.fury.io/py/kines) [![Build Status](https://travis-ci.org/dinsaw/kines.svg?branch=master)](https://travis-ci.org/dinsaw/kines)
 
 Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/)
 
