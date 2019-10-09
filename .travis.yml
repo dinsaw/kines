@@ -11,4 +11,4 @@ install:
   - pip install pytest
 
 script:
-  - coverage run -m pytest
+  - coverage
