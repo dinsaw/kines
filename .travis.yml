@@ -11,4 +11,4 @@ install:
   - pip install --editable .
 
 script:
-  - pytest --cov=./
+  - py.test --cov-report=xml --cov=kines tests/
