@@ -10,4 +10,4 @@ install:
   - pip install pytest-cov
 
 script:
-  - py.test --cov-report=xml --cov=kines tests/
+  - python -m py.test --cov-report=xml --cov=kines tests/
