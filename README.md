@@ -1,4 +1,6 @@
 ## Kines
+[![PyPI version](https://img.shields.io/pypi/v/kines.svg)](https://badge.fury.io/py/kines)
+
 Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.amazon.com/kinesis/data-streams/)
 
 ![Kines Demo](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-demo.gif)
@@ -14,12 +16,6 @@ Friendly Command Line Interface for [Amazon Kinesis Data Streams](https://aws.am
 - `kines ls`
 
 ![Kines ls](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-ls.png)
-
-##### List Kinesis Stream Shards
-- `kines lss <stream-name>`
-- For detailed output Run `kines lss <stream-name> -d`
-
-![Kines lss](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-lss-and-d.png)
 
 ##### List Kinesis Stream Shards
 - `kines lss <stream-name>`
