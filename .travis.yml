@@ -7,7 +7,7 @@ python:
   - "nightly"
   
 install:
-  - pip install pytest pytest-cov
+  - pip install codecov pytest pytest-cov
   - pip install --editable .
 
 script:
