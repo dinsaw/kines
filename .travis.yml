@@ -12,3 +12,6 @@ install:
 
 script:
   - py.test --cov-report=xml --cov=kines tests/
+ 
+after_success:
+  - codecov
