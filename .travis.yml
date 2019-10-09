@@ -7,7 +7,7 @@ python:
   - "nightly"
   
 install:
-  - pip install pytest-cov
+  - pip install pytest pytest-cov
 
 script:
-  - python -m py.test --cov-report=xml --cov=kines tests/
+  - pytest --cov=./
