@@ -1,4 +1,4 @@
-from kines import common
+from kines import constants
 import boto3
 from terminaltables import SingleTable
 
@@ -26,14 +26,14 @@ def display_shard_table(stream_name, only_open_shards, detailed):
         if only_open_shards and is_shard_closed:
             continue
 
-        state_icon = common.CLOSED_ICON if is_shard_closed else common.OPEN_ICON
+        state_icon = constants.CLOSED_ICON if is_shard_closed else constants.OPEN_ICON
         starting_hash_key = shard['HashKeyRange']['StartingHashKey']
         ending_hash_key = shard['HashKeyRange']['EndingHashKey']
 
         data_row = [
-            state_icon + ' ' + shard['ShardId'].replace(common.SHARD_ID_PREFIX, ''),
-            shard.get('ParentShardId', '').replace(common.SHARD_ID_PREFIX, ''),
-            shard.get('AdjacentParentShardId', '').replace(common.SHARD_ID_PREFIX, ''),
+            state_icon + ' ' + shard['ShardId'].replace(constants.SHARD_ID_PREFIX, ''),
+            shard.get('ParentShardId', '').replace(constants.SHARD_ID_PREFIX, ''),
+            shard.get('AdjacentParentShardId', '').replace(constants.SHARD_ID_PREFIX, ''),
             str(cal_range_percentage(starting_hash_key, ending_hash_key)) + '%',
             # shard['SequenceNumberRange']['StartingSequenceNumber']
         ]
@@ -49,9 +49,9 @@ def display_shard_table(stream_name, only_open_shards, detailed):
 
 
 def cal_range_percentage(starting_hash_key, ending_hash_key):
-    return ((int(ending_hash_key) - int(starting_hash_key)) / common.MAX_RANGE) * 100
+    return ((int(ending_hash_key) - int(starting_hash_key)) / constants.MAX_RANGE) * 100
 
 
 def print_legends(separator='. '):
-    print(f'{common.CLOSED_ICON} = Closed Shard', end=separator)
-    print(f'{common.OPEN_ICON} = Open Shard', end=separator)
+    print(f'{constants.CLOSED_ICON} = Closed Shard', end=separator)
+    print(f'{constants.OPEN_ICON} = Open Shard', end=separator)

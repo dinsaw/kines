@@ -1,5 +1,5 @@
 import click
-from kines import partition_key_util, metric_util, stream_util, shard_util, read_util
+from kines import partition_key_util, metrics, stream_util, shard_util, read_util
 
 
 @click.group()
@@ -37,7 +37,7 @@ def find(stream_name: str, partition_key: str, open_shards: bool):
 @kines.command()
 def report(stream_name: str, period: int, hours: int):
     """Get report for a Kinesis stream"""
-    metric_util.display_report(stream_name, period * 60, hours)
+    metrics.display_report(stream_name, period * 60, hours)
 
 
 @click.option('-n', '--number-of-records', default=5, type=int, help='Max Number of records to be retrieved per call')
@@ -53,7 +53,7 @@ def walk(stream_name: str, shard_id: str, sequence_number: str, number_of_record
 @kines.command()
 def legends():
     """View all legends / short forms used"""
-    metric_util.print_legends('\n')
+    metrics.print_legends('\n')
     stream_util.print_legends('\n')
     shard_util.print_legends('\n')
 

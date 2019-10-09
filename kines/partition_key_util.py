@@ -1,6 +1,6 @@
 import hashlib
 import boto3
-from kines import common
+from kines import constants
 from terminaltables import SingleTable
 
 kinesis_client = boto3.client('kinesis')
@@ -30,7 +30,7 @@ def find_shard(stream_name, partition_keys, only_open_shards):
             if only_open_shards and is_shard_closed:
                 continue
 
-            state_icon = common.CLOSED_ICON if is_shard_closed else common.OPEN_ICON
+            state_icon = constants.CLOSED_ICON if is_shard_closed else constants.OPEN_ICON
             starting_hash_key = int(shard['HashKeyRange']['StartingHashKey'])
             ending_hash_key = int(shard['HashKeyRange']['EndingHashKey'])
 
@@ -39,7 +39,7 @@ def find_shard(stream_name, partition_keys, only_open_shards):
                     partition_key,
                     md5_partition_key,
                     hash_key,
-                    state_icon + ' ' + shard['ShardId'].replace(common.SHARD_ID_PREFIX, ''),
+                    state_icon + ' ' + shard['ShardId'].replace(constants.SHARD_ID_PREFIX, ''),
                     # starting_hash_key,
                     # ending_hash_key
                 ])

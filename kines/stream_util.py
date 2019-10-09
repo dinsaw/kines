@@ -1,15 +1,15 @@
 import boto3
-from kines import common
+from kines import constants
 from terminaltables import SingleTable
 
 LIST_STREAM_SHORT_HEADERS = [
     'Status - Stream',
-    common.NUMBER_OF_SHARDS_ICON,
-    common.ENHANCED_CONSUMER_ICON,
+    constants.NUMBER_OF_SHARDS_ICON,
+    constants.ENHANCED_CONSUMER_ICON,
     # 'ARN',
-    common.RETENTION_PERIOD_ICON,
+    constants.RETENTION_PERIOD_ICON,
     # 'Created At',
-    common.ENCRYPTION_TYPE_ICON,
+    constants.ENCRYPTION_TYPE_ICON,
 ]
 
 LIST_STREAM_FULL_HEADERS = [
@@ -44,7 +44,7 @@ def list_streams(name_filter="", full_form=False):
 
         stream_status = describe_stream_summary['StreamStatus']
         table_data.append([
-            common.STREAM_STATUS_ICON_MAP[stream_status] + ' ' + stream_name,
+            constants.STREAM_STATUS_ICON_MAP[stream_status] + ' ' + stream_name,
             describe_stream_summary['OpenShardCount'],
             describe_stream_summary['ConsumerCount'],
             # describe_stream_summary['StreamARN'],
@@ -62,6 +62,6 @@ def print_legends(separator='. '):
         print(f'{h} = {LIST_STREAM_FULL_HEADERS[idx]}', end=separator)
     print()
 
-    for k, v in common.STREAM_STATUS_ICON_MAP.items():
+    for k, v in constants.STREAM_STATUS_ICON_MAP.items():
         print(f'{v} = {k} Stream Status', end=separator)
     print()

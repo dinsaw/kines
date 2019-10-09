@@ -1,5 +1,5 @@
 import boto3
-from kines import common
+from kines import constants
 import click
 from terminaltables import SingleTable
 import base64
@@ -9,8 +9,8 @@ from textwrap import wrap
 def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5, timestamp=None):
     kinesis_client = boto3.client('kinesis')
 
-    if not shard_id.startswith(common.SHARD_ID_PREFIX):
-        shard_id = common.SHARD_ID_PREFIX + shard_id
+    if not shard_id.startswith(constants.SHARD_ID_PREFIX):
+        shard_id = constants.SHARD_ID_PREFIX + shard_id
 
     shard_iterator_type = 'AT_SEQUENCE_NUMBER' if sequence_number else 'TRIM_HORIZON'
 
