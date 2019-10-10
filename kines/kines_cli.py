@@ -53,9 +53,8 @@ def walk(stream_name: str, shard_id: str, sequence_number: str, number_of_record
 @kines.command()
 def legends():
     """View all legends / short forms used"""
-    metrics.print_legends('\n')
-    stream_util.print_legends('\n')
-    shard_util.print_legends('\n')
+    for m in [metrics, stream_util, shard_util]:
+        m.print_legends('\n')
 
 
 # @click.option('-s', '--stream-name', required=True, help='Kinesis Stream Name')
