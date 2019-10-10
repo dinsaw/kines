@@ -44,6 +44,10 @@ Status - Stream = Stream with Status
 """ == result.output
 
 
+def boto3_init():
+    print("mock boto3 init")
+
+
 class MockKinesisClient:
 
     @staticmethod
@@ -103,6 +107,7 @@ def test_kines_ls(monkeypatch):
     def mock_get_kinesis_client(*args, **kwargs):
         return MockKinesisClient()
 
+    monkeypatch.setattr(boto3, '__init__', boto3_init)
     monkeypatch.setattr(boto3, 'client', mock_get_kinesis_client)
 
     result = runner.invoke(kines_cli.kines, ['ls'])
@@ -124,6 +129,7 @@ def test_kines_lss(monkeypatch):
     def mock_get_kinesis_client(*args, **kwargs):
         return MockKinesisClient()
 
+    monkeypatch.setattr(boto3, '__init__', boto3_init)
     monkeypatch.setattr(boto3, 'client', mock_get_kinesis_client)
 
     result = runner.invoke(kines_cli.kines, ['lss', 'test-stream-1'])
