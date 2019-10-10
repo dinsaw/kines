@@ -11,6 +11,7 @@ install:
   - pip install --editable .
 
 script:
+  - export AWS_DEFAULT_REGION=ap-south-1
   - py.test --cov-report=xml --cov=kines tests/
  
 after_success:
