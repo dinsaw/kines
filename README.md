@@ -46,7 +46,7 @@ The Kinesis record's data is decoded using `base64` decoder. You can press ⏎ t
 
 ![Kines Walk](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-walk-demo.gif)
 
-- Get report for last 60 hours with 6 hour metric period
+#### Get report for Kinesis Stream
 
 The report command gives you statistics about your Kinesis Stream. Internally, this command calls [`get_metric_data`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data) of Boto3 Cloudwatch client.
 
