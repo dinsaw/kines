@@ -5,13 +5,17 @@ python:
   - "3.7-dev"
   - "3.8-dev"
   - "nightly"
-  
+
+before_install:
+  - export TZ=Asia/Kolkata
+
 install:
   - pip install codecov pytest pytest-cov
   - pip install --editable .
 
 script:
-  - py.test --cov-report=xml --cov=kines tests/
+  - export AWS_DEFAULT_REGION=ap-south-1
+  - py.test --cov-report=xml --cov=kines tests/ -v
  
 after_success:
   - codecov

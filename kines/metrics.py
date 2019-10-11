@@ -1,9 +1,9 @@
 import datetime
-import math
 import boto3
 from terminaltables import SingleTable
 
-from kines import common, date_util
+from kines import constants, date_util
+from kines.util import convert_size
 
 REPORT_SHORT_HEADERS = [
     'Time',
@@ -42,7 +42,7 @@ M_WPTE = 'wpte'
 def with_exceeded_icon(value):
     if value <= 0:
         return value
-    return str(value) + ' ' + common.THROUGHPUT_EXCEEDED_ICON
+    return str(value) + ' ' + constants.THROUGHPUT_EXCEEDED_ICON
 
 
 def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False):
@@ -66,9 +66,7 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
             get_metric_data_query(stream_name, 'GetRecords.IteratorAgeMilliseconds', M_GIAM, period, 'Maximum'),
         ],
         StartTime=start_time,
-        # StartTime=datetime(2019, 9, 15),
         EndTime=end_time,
-        # EndTime=datetime(2019, 9, 16),
         ScanBy='TimestampAscending',
         MaxDatapoints=288
     )
@@ -139,13 +137,3 @@ def get_metric_data_query(stream_name, metric, metric_id, period, stat='Sum'):
             'Stat': stat
         }
     }
-
-
-def convert_size(size_bytes):
-    if size_bytes == 0:
-        return "0B"
-    size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-    i = int(math.floor(math.log(size_bytes, 1024)))
-    p = math.pow(1024, i)
-    s = round(size_bytes / p, 2)
-    return "%s %s" % (s, size_name[i])
