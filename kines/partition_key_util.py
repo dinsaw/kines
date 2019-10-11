@@ -1,9 +1,9 @@
 import hashlib
+
 import boto3
-from kines import constants
 from terminaltables import SingleTable
 
-kinesis_client = boto3.client('kinesis')
+from kines import constants
 
 
 def find_shard(stream_name, partition_keys, only_open_shards):
@@ -19,13 +19,14 @@ def find_shard(stream_name, partition_keys, only_open_shards):
         ]
     ]
 
+    kinesis_client = boto3.client('kinesis')
+    shards_response = kinesis_client.list_shards(StreamName=stream_name)
+
     for partition_key in partition_keys:
         md5_partition_key = hashlib.md5(partition_key.encode('UTF-8')).hexdigest()
         hash_key = int(md5_partition_key, base=16)
 
-        shards = kinesis_client.list_shards(StreamName=stream_name)
-        for shard in shards['Shards']:
-
+        for shard in shards_response['Shards']:
             is_shard_closed = 'EndingSequenceNumber' in shard['SequenceNumberRange']
             if only_open_shards and is_shard_closed:
                 continue

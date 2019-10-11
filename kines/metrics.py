@@ -66,9 +66,7 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
             get_metric_data_query(stream_name, 'GetRecords.IteratorAgeMilliseconds', M_GIAM, period, 'Maximum'),
         ],
         StartTime=start_time,
-        # StartTime=datetime(2019, 9, 15),
         EndTime=end_time,
-        # EndTime=datetime(2019, 9, 16),
         ScanBy='TimestampAscending',
         MaxDatapoints=288
     )
