@@ -1,6 +1,6 @@
 import datetime
 
-from dateutil.tz import tzutc
+from dateutil.tz import tzutc, tzlocal
 
 LIST_SHARDS_8_RESPONSE = {
     "Shards": [
@@ -156,3 +156,35 @@ CLOUDWATCH_RESPONSE_H3_P3 = {'MetricDataResults': [{'Id': 'ir', 'Label': 'Incomi
                                                     'Values': [0.0, 0.0, 0.0, 0.0, 0.0, 36000.0, 0.0],
                                                     'StatusCode': 'Complete'}], 'Messages': [],
                              }
+
+KINESIS_RECORDS_ITERATOR_1_RESPONSE = {
+    'Records': [{'SequenceNumber': '49600282682944895786267660693075522538255370376250918498',
+                 'ApproximateArrivalTimestamp': datetime.datetime(2019, 10, 10, 16, 22, 41, 761000, tzinfo=tzlocal()),
+                 'Data': b'eyJldmVudCI6ICIxIn0K',
+                 'PartitionKey': '4439109'},
+                {'SequenceNumber': '49600282682944895786267660697997059549906526021357667938',
+                 'ApproximateArrivalTimestamp': datetime.datetime(2019, 10, 10, 16, 22, 45,
+                                                                  180000, tzinfo=tzlocal()),
+                 'Data': b'eyJldmVudCI6ICIyIn0K',
+                 'PartitionKey': '4439109'},
+                {'SequenceNumber': '49600282682944895786267660702176316108314299215755871842',
+                 'ApproximateArrivalTimestamp': datetime.datetime(2019, 10, 10, 16, 22, 48, 83000, tzinfo=tzlocal()),
+                 'Data': b'eyJldmVudCI6ICIzIn0K',
+                 'PartitionKey': '4439109'},
+                {'SequenceNumber': '49600282682944895786267660702634498993948243810408466018',
+                 'ApproximateArrivalTimestamp': datetime.datetime(2019, 10, 10, 16, 22, 48,
+                                                                  407000, tzinfo=tzlocal()),
+                 'Data': b'eyJldmVudCI6ICI0In0K',
+                 'PartitionKey': '4439109'},
+                {'SequenceNumber': '49600282682944895786267660705672529578639807063884039778',
+                 'ApproximateArrivalTimestamp': datetime.datetime(2019, 10, 10, 16, 22, 50, 666000, tzinfo=tzlocal()),
+                 'Data': b'eyJldmVudCI6ICI1In0K',
+                 'PartitionKey': '4439109'}],
+    'NextShardIterator': 'AAAA-Shard-Iterator-2',
+    'MillisBehindLatest': 86346000,
+    'ResponseMetadata': {'RequestId': 'f66ad0f9-3ade-3f3e-a070-b1f5c9043ac3', 'HTTPStatusCode': 200,
+                         'HTTPHeaders': {'x-amzn-requestid': 'f66ad0f9-3ade-3f3e-a070-b1f5c9043ac3',
+                                         'x-amz-id-2': 'y6rEwcgmg3F05eSo8bEqr2OMvkyFQwc8vCjClMZRRfU0fEq2vbR1lD2FC7v0rp43b1LY1acrEaQWjnjOXgBq/DkW39Fbznto',
+                                         'date': 'Fri, 11 Oct 2019 10:51:56 GMT',
+                                         'content-type': 'application/x-amz-json-1.1', 'content-length': '91441'},
+                         'RetryAttempts': 0}}

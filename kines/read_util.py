@@ -24,10 +24,11 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5, times
         get_shard_iterator_args['StartingSequenceNumber'] = sequence_number
 
     click.echo(f"Creating shard iterator with arguments = {get_shard_iterator_args}")
-    response = kinesis_client.get_shard_iterator(**get_shard_iterator_args)
+    shard_iterator_response = kinesis_client.get_shard_iterator(**get_shard_iterator_args)
 
-    shard_iterator = response['ShardIterator']
-    while True:
+    shard_iterator = shard_iterator_response['ShardIterator']
+    fetch_more = True
+    while fetch_more:
 
         records_response = kinesis_client.get_records(
             ShardIterator=shard_iterator,
@@ -53,5 +54,5 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5, times
         if not records_response['Records']:
             print("No records found for this api call 😔")
 
-        click.confirm('Fetch more records?', abort=True, default=True)
+        fetch_more = click.confirm('Fetch more records?', default=True)
         shard_iterator = records_response['NextShardIterator']
