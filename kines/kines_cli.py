@@ -57,19 +57,5 @@ def legends():
         m.print_legends('\n')
 
 
-# @click.option('-s', '--stream-name', required=True, help='Kinesis Stream Name')
-# @kines.command()
-# def scaleup(stream_name: str):
-#     """Splits all shards in the stream in equal parts."""
-#     scaling_util.scale_up(stream_name)
-#
-#
-# @click.option('-s', '--stream-name', required=True, help='Kinesis Stream Name')
-# @kines.command()
-# def scaledown(stream_name: str):
-#     """Merge all shards in stream. Makes steam shards size of it's current size."""
-#     scaling_util.scale_down(stream_name)
-
-
 if __name__ == '__main__':
     kines(prog_name='kines')
