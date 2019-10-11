@@ -12,7 +12,7 @@ install:
 
 script:
   - export AWS_DEFAULT_REGION=ap-south-1
-  - py.test --cov-report=xml --cov=kines tests/
+  - py.test --cov-report=xml --cov=kines tests/ -v
  
 after_success:
   - codecov
