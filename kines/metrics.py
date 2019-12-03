@@ -3,7 +3,7 @@ import boto3
 from terminaltables import SingleTable
 
 from kines import constants, date_util
-from kines.util import convert_size
+from kines.util import convert_size, get_or_default
 
 REPORT_SHORT_HEADERS = [
     "Time",
@@ -46,9 +46,7 @@ def with_exceeded_icon(value):
 
 
 def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False):
-    start_time = (
-        datetime.datetime.utcnow() - datetime.timedelta(hours=past_hours)
-    ).replace(minute=0, second=0)
+    start_time = calculate_start_time(past_hours)
     end_time = datetime.datetime.utcnow()
 
     cloudwatch_client = boto3.client("cloudwatch")
@@ -99,27 +97,16 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
         grr_value = get_or_default(result_map[M_GRR]["Values"], walk_through_count)
         table_data.append(
             [
-                date_util.utc_to_local(
-                    result_map[M_WPTE]["Timestamps"][walk_through_count]
-                ).strftime("%Y-%m-%d %H:%M"),
+                get_timestamp(result_map, walk_through_count),
                 ir_value,
-                convert_size(
-                    get_or_default(result_map[M_IB]["Values"], walk_through_count)
-                ),
-                "{0:.2f}".format(ir_value / step_time_in_seconds),
+                get_incoming_data_size(result_map, walk_through_count),
+                get_value_per_second(ir_value, step_time_in_seconds),
                 grr_value,
-                "{0:.2f}".format(grr_value / step_time_in_seconds),
-                # Fraction(ir_value/grr_value).limit_denominator(),
-                "{0:.2f}".format(grr_value / ir_value),
-                with_exceeded_icon(
-                    get_or_default(result_map[M_WPTE]["Values"], walk_through_count)
-                ),
-                with_exceeded_icon(
-                    get_or_default(result_map[M_RPTE]["Values"], walk_through_count)
-                ),
-                with_exceeded_icon(
-                    get_or_default(result_map[M_GIAM]["Values"], walk_through_count)
-                ),
+                get_value_per_second(grr_value, step_time_in_seconds),
+                get_value_per_second(grr_value, ir_value),
+                get_write_throughput_exceeded_count(result_map, walk_through_count),
+                get_read_throughput_exceeded_count(result_map, walk_through_count),
+                get_max_iterator_age_millis(result_map, walk_through_count),
             ]
         )
         walk_through_count += 1
@@ -128,17 +115,47 @@ def display_report(stream_name, period=(60 * 15), past_hours=12, full_form=False
     print(table.table)
 
 
+def get_max_iterator_age_millis(result_map, walk_through_count):
+    return with_exceeded_icon(
+        get_or_default(result_map[M_GIAM]["Values"], walk_through_count)
+    )
+
+
+def get_read_throughput_exceeded_count(result_map, walk_through_count):
+    return with_exceeded_icon(
+        get_or_default(result_map[M_RPTE]["Values"], walk_through_count)
+    )
+
+
+def get_write_throughput_exceeded_count(result_map, walk_through_count):
+    return with_exceeded_icon(
+        get_or_default(result_map[M_WPTE]["Values"], walk_through_count)
+    )
+
+
+def get_value_per_second(value, step_time_in_seconds):
+    return "{0:.2f}".format(value / step_time_in_seconds)
+
+
+def get_incoming_data_size(result_map, walk_through_count):
+    return convert_size(get_or_default(result_map[M_IB]["Values"], walk_through_count))
+
+
+def get_timestamp(result_map, walk_through_count):
+    return date_util.utc_to_local(
+        result_map[M_WPTE]["Timestamps"][walk_through_count]
+    ).strftime("%Y-%m-%d %H:%M")
+
+
+def calculate_start_time(past_hours):
+    start_time = datetime.datetime.utcnow() - datetime.timedelta(hours=past_hours)
+    return start_time.replace(minute=0, second=0)
+
+
 def print_legends(separator=". "):
     for idx, h in enumerate(REPORT_SHORT_HEADERS):
         print(f"{h} = {REPORT_FULL_HEADERS[idx]}", end=separator)
     print()
-
-
-def get_or_default(array, walk_through_count, default_value=0):
-    try:
-        return array[walk_through_count]
-    except IndexError:
-        return default_value
 
 
 def get_metric_data_query(stream_name, metric, metric_id, period, stat="Sum"):

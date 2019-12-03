@@ -9,3 +9,10 @@ def convert_size(size_bytes):
     p = math.pow(1024, i)
     s = round(size_bytes / p, 2)
     return "%s %s" % (s, size_name[i])
+
+
+def get_or_default(array, walk_through_count, default_value=0):
+    try:
+        return array[walk_through_count]
+    except IndexError:
+        return default_value
