@@ -10,10 +10,11 @@ before_install:
   - export TZ=Asia/Kolkata
 
 install:
-  - pip install codecov pytest pytest-cov
+  - pip install codecov pytest pytest-cov black
   - pip install --editable .
 
 script:
+  - black --check kines tests
   - export AWS_DEFAULT_REGION=ap-south-1
   - py.test --cov-report=xml --cov=kines tests/ -v
  
