@@ -6,9 +6,7 @@ import base64
 from textwrap import wrap
 
 
-def walk(
-    stream_name, shard_id, sequence_number=None, get_records_limit=5, timestamp=None
-):
+def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
     kinesis_client = boto3.client("kinesis")
 
     if not shard_id.startswith(constants.SHARD_ID_PREFIX):
