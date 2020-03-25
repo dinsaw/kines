@@ -37,7 +37,10 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
         )
 
         for record in records_response["Records"]:
-            parsed_data = base64.b64decode(record["Data"]).decode("utf-8")
+            try:
+                parsed_data = base64.b64decode(record["Data"]).decode("utf-8")
+            except:
+                parsed_data = record["Data"].decode("utf-8")
             table_data = [
                 ["SequenceNumber", record["SequenceNumber"]],
                 ["ApproximateArrivalTimestamp", record["ApproximateArrivalTimestamp"]],
