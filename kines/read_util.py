@@ -7,6 +7,7 @@ from textwrap import wrap
 
 UTF_8 = "utf-8"
 
+
 def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
     kinesis_client = boto3.client("kinesis")
 
@@ -65,4 +66,3 @@ def get_parsed_data(kinesis_record):
         return base64.b64decode(kinesis_record["Data"]).decode(UTF_8)
     except:
         return kinesis_record["Data"].decode(UTF_8)
-
