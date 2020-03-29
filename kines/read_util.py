@@ -5,6 +5,7 @@ from terminaltables import SingleTable
 import base64
 from textwrap import wrap
 
+UTF_8 = "utf-8"
 
 def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
     kinesis_client = boto3.client("kinesis")
@@ -37,10 +38,7 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
         )
 
         for record in records_response["Records"]:
-            try:
-                parsed_data = base64.b64decode(record["Data"]).decode("utf-8")
-            except:
-                parsed_data = record["Data"].decode("utf-8")
+            parsed_data = get_parsed_data(record)
             table_data = [
                 ["SequenceNumber", record["SequenceNumber"]],
                 ["ApproximateArrivalTimestamp", record["ApproximateArrivalTimestamp"]],
@@ -60,3 +58,11 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
 
         fetch_more = click.confirm("Fetch more records?", default=True)
         shard_iterator = records_response["NextShardIterator"]
+
+
+def get_parsed_data(kinesis_record):
+    try:
+        return base64.b64decode(kinesis_record["Data"]).decode(UTF_8)
+    except:
+        return kinesis_record["Data"].decode(UTF_8)
+
