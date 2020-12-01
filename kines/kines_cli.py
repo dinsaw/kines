@@ -58,13 +58,50 @@ def report(stream_name: str, period: int, hours: int):
     type=int,
     help="Max Number of records to be retrieved per call",
 )
-@click.option("-s", "--sequence-number", default=None, type=str, help="Sequence Number")
+@click.option(
+    "-s",
+    "--sequence-number",
+    default=None,
+    type=str,
+    help="Start from this Sequence Number. Creates AT_SEQUENCE_NUMBER shard iterator.",
+)
+@click.option(
+    "-f",
+    "--follow",
+    default=False,
+    is_flag=True,
+    help="Poll records repeatedly after 2 seconds",
+)
+@click.option(
+    "-l", "--latest", default=False, is_flag=True, help="Start from latest records. Creates LATEST shard iterator"
+)
+@click.option(
+    "-t",
+    "--timestamp",
+    help="Start from this timestamp. Creates AT_TIMESTAMP shard iterator. You can specify timestamp as '2016-04-04T19:58:46.480-00:00' or with short hand as '1h10m' i.e. 1 hour 10 minutes ago, '10m' i.e. 10 minutes ago, '1h' i.e. 1 hour ago.",
+)
 @click.argument("shard-id", required=True)
 @click.argument("stream-name", required=True)
 @kines.command()
-def walk(stream_name: str, shard_id: str, sequence_number: str, number_of_records: int):
-    """Walk through Kinesis Records"""
-    read_util.walk(stream_name, shard_id, sequence_number, number_of_records)
+def walk(
+    stream_name: str,
+    shard_id: str,
+    sequence_number: str,
+    number_of_records: int,
+    follow: bool,
+    latest: bool,
+    timestamp: str,
+):
+    """Walk through Kinesis Records. By default creates TRIM_HORIZON iterator."""
+    read_util.walk(
+        stream_name,
+        shard_id,
+        sequence_number,
+        number_of_records,
+        follow,
+        latest,
+        timestamp,
+    )
 
 
 @kines.command()

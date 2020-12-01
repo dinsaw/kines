@@ -165,7 +165,9 @@ def get_metric_data_query(stream_name, metric, metric_id, period, stat="Sum"):
             "Metric": {
                 "Namespace": "AWS/Kinesis",
                 "MetricName": metric,
-                "Dimensions": [{"Name": "StreamName", "Value": stream_name},],
+                "Dimensions": [
+                    {"Name": "StreamName", "Value": stream_name},
+                ],
             },
             "Period": period,
             "Stat": stat,

@@ -1,25 +1,43 @@
 import boto3
-from kines import constants
+from kines import constants, date_util
 import click
 from terminaltables import SingleTable
 import base64
 from textwrap import wrap
+import time
 
 UTF_8 = "utf-8"
+WAIT_FOR_SECONDS = 2
 
 
-def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
+def walk(
+    stream_name,
+    shard_id,
+    sequence_number=None,
+    get_records_limit=5,
+    follow=False,
+    latest=False,
+    timestamp=None,
+):
     kinesis_client = boto3.client("kinesis")
 
     if not shard_id.startswith(constants.SHARD_ID_PREFIX):
         shard_id = constants.SHARD_ID_PREFIX + shard_id
 
-    shard_iterator_type = "AT_SEQUENCE_NUMBER" if sequence_number else "TRIM_HORIZON"
+    if sequence_number:
+        shard_iterator_type = "AT_SEQUENCE_NUMBER"
+    elif latest:
+        shard_iterator_type = "LATEST"
+    elif timestamp:
+        shard_iterator_type = "AT_TIMESTAMP"
+    else:
+        shard_iterator_type = "AT_SEQUENCE_NUMBER"
 
     get_shard_iterator_args = {
         "StreamName": stream_name,
         "ShardId": shard_id,
         "ShardIteratorType": shard_iterator_type,
+        "Timestamp": date_util.to_iterator_timestamp(timestamp),
     }
 
     if sequence_number:
@@ -55,9 +73,14 @@ def walk(stream_name, shard_id, sequence_number=None, get_records_limit=5):
             print(table.table)
 
         if not records_response["Records"]:
-            print("No records found for this api call 😔")
+            click.echo("No records found for this api call 😔")
 
-        fetch_more = click.confirm("Fetch more records?", default=True)
+        if follow:
+            click.echo(f"Waiting for {WAIT_FOR_SECONDS} seconds...")
+            time.sleep(WAIT_FOR_SECONDS)
+        else:
+            fetch_more = click.confirm("Fetch more records?", default=True)
+
         shard_iterator = records_response["NextShardIterator"]
 
 
