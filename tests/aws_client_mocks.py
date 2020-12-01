@@ -119,7 +119,8 @@ class MockKinesisClient:
 class EmptyRecordsMockKinesisClient(MockKinesisClient):
     @staticmethod
     def get_records(*args, **kwargs):
-        return tests.boto3_api_responses.EMPTY_KINESIS_RECORDS_ITERATOR_1_RESPONSE    
+        return tests.boto3_api_responses.EMPTY_KINESIS_RECORDS_ITERATOR_1_RESPONSE
+
 
 class MockCloudWatchClient:
     @staticmethod

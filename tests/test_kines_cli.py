@@ -2,7 +2,11 @@ import boto3
 from click.testing import CliRunner
 
 from kines import kines_cli
-from tests.aws_client_mocks import MockKinesisClient, EmptyRecordsMockKinesisClient, MockCloudWatchClient
+from tests.aws_client_mocks import (
+    MockKinesisClient,
+    EmptyRecordsMockKinesisClient,
+    MockCloudWatchClient,
+)
 
 
 def test_kines_help():
@@ -55,6 +59,7 @@ def mock_get_cloudwatch_client(*args, **kwargs):
 
 def mock_get_kinesis_client(*args, **kwargs):
     return MockKinesisClient()
+
 
 def empty_record_mock_get_kinesis_client(*args, **kwargs):
     return EmptyRecordsMockKinesisClient()
@@ -137,6 +142,7 @@ def test_walk(monkeypatch):
     assert expected_output == result.output
     assert 0 == result.exit_code
 
+
 def test_walk_empty_records(monkeypatch):
     monkeypatch.setattr(boto3, "client", empty_record_mock_get_kinesis_client)
     runner = CliRunner()
@@ -144,7 +150,7 @@ def test_walk_empty_records(monkeypatch):
         kines_cli.kines, ["walk", "test-stream-walk", "000000000102"], input="n\n"
     )
     print("walk output", result.output)
-    expected_output = 'Creating shard iterator with arguments = {\'StreamName\': \'test-stream-walk\', \'ShardId\': \'shardId-000000000102\', \'ShardIteratorType\': \'TRIM_HORIZON\'}\nNo records found for this api call 😔\nFetch more records? [Y/n]: n\n'
+    expected_output = "Creating shard iterator with arguments = {'StreamName': 'test-stream-walk', 'ShardId': 'shardId-000000000102', 'ShardIteratorType': 'TRIM_HORIZON'}\nNo records found for this api call 😔\nFetch more records? [Y/n]: n\n"
     assert expected_output == result.output
     assert 0 == result.exit_code
 
