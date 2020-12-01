@@ -73,7 +73,11 @@ def report(stream_name: str, period: int, hours: int):
     help="Poll records repeatedly after 2 seconds",
 )
 @click.option(
-    "-l", "--latest", default=False, is_flag=True, help="Start from latest records. Creates LATEST shard iterator"
+    "-l",
+    "--latest",
+    default=False,
+    is_flag=True,
+    help="Start from latest records. Creates LATEST shard iterator",
 )
 @click.option(
     "-t",
