@@ -2,7 +2,7 @@ import boto3
 from click.testing import CliRunner
 
 from kines import kines_cli
-from tests.aws_client_mocks import MockKinesisClient, MockCloudWatchClient
+from tests.aws_client_mocks import MockKinesisClient, EmptyRecordsMockKinesisClient, MockCloudWatchClient
 
 
 def test_kines_help():
@@ -55,6 +55,9 @@ def mock_get_cloudwatch_client(*args, **kwargs):
 
 def mock_get_kinesis_client(*args, **kwargs):
     return MockKinesisClient()
+
+def empty_record_mock_get_kinesis_client(*args, **kwargs):
+    return EmptyRecordsMockKinesisClient()
 
 
 def test_kines_ls(monkeypatch):
@@ -131,6 +134,17 @@ def test_walk(monkeypatch):
     )
     print("walk output", result.output)
     expected_output = 'Creating shard iterator with arguments = {\'StreamName\': \'test-stream-walk\', \'ShardId\': \'shardId-000000000102\', \'ShardIteratorType\': \'TRIM_HORIZON\'}\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660693075522538255370376250918498 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:41.761000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "1"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660697997059549906526021357667938 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:45.180000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "2"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660702176316108314299215755871842 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:48.083000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "3"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660702634498993948243810408466018 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:48.407000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "4"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660705672529578639807063884039778 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:50.666000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "5"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\nFetch more records? [Y/n]: n\n'
+    assert expected_output == result.output
+    assert 0 == result.exit_code
+
+def test_walk_empty_records(monkeypatch):
+    monkeypatch.setattr(boto3, "client", empty_record_mock_get_kinesis_client)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines, ["walk", "test-stream-walk", "000000000102"], input="n\n"
+    )
+    print("walk output", result.output)
+    expected_output = 'Creating shard iterator with arguments = {\'StreamName\': \'test-stream-walk\', \'ShardId\': \'shardId-000000000102\', \'ShardIteratorType\': \'TRIM_HORIZON\'}\nNo records found for this api call 😔\nFetch more records? [Y/n]: n\n'
     assert expected_output == result.output
     assert 0 == result.exit_code
 
