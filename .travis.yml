@@ -13,7 +13,7 @@ before_install:
   - export TZ=Asia/Kolkata
 
 install:
-  - pip install codecov pytest pytest-cov black
+  - pip install codecov pytest pytest-cov black freezegun
   - pip install --editable .
 
 script:
