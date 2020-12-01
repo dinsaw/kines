@@ -46,6 +46,12 @@ The Kinesis record's data is decoded using `base64` decoder. You can press ⏎ t
 
 ![Kines Walk](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-walk-demo.gif)
 
+- Use `-t` option to get records from 1 hour 10 minutes ago. Example: `kines walk click-stream 000000000000 -t '1h10m'`
+
+- Use `-l` option to start from latest records. Example: `kines walk click-stream 000000000000 -l`
+
+- Use `-f` option to poll records repeatedly. Example: `kines walk click-stream 000000000000 -l -f`
+
 #### Get report for Kinesis Stream
 
 The report command gives you statistics about your Kinesis Stream. Internally, this command calls [`get_metric_data`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data) of Boto3 Cloudwatch client.
