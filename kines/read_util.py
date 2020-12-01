@@ -24,24 +24,18 @@ def walk(
     if not shard_id.startswith(constants.SHARD_ID_PREFIX):
         shard_id = constants.SHARD_ID_PREFIX + shard_id
 
-    if sequence_number:
-        shard_iterator_type = "AT_SEQUENCE_NUMBER"
-    elif latest:
-        shard_iterator_type = "LATEST"
-    elif timestamp:
-        shard_iterator_type = "AT_TIMESTAMP"
-    else:
-        shard_iterator_type = "AT_SEQUENCE_NUMBER"
-
-    get_shard_iterator_args = {
-        "StreamName": stream_name,
-        "ShardId": shard_id,
-        "ShardIteratorType": shard_iterator_type,
-        "Timestamp": date_util.to_iterator_timestamp(timestamp),
-    }
+    get_shard_iterator_args = {"StreamName": stream_name, "ShardId": shard_id}
 
     if sequence_number:
+        get_shard_iterator_args["ShardIteratorType"] = "AT_SEQUENCE_NUMBER"
         get_shard_iterator_args["StartingSequenceNumber"] = sequence_number
+    elif latest:
+        get_shard_iterator_args["ShardIteratorType"] = "LATEST"
+    elif timestamp:
+        get_shard_iterator_args["ShardIteratorType"] = "AT_TIMESTAMP"
+        get_shard_iterator["Timestamp"] = date_util.to_iterator_timestamp(timestamp)
+    else:
+        get_shard_iterator_args["ShardIteratorType"] = "TRIM_HORIZON"
 
     click.echo(f"Creating shard iterator with arguments = {get_shard_iterator_args}")
     shard_iterator_response = kinesis_client.get_shard_iterator(
