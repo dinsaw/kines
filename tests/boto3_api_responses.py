@@ -273,3 +273,22 @@ KINESIS_RECORDS_ITERATOR_1_RESPONSE = {
         "RetryAttempts": 0,
     },
 }
+
+
+EMPTY_KINESIS_RECORDS_ITERATOR_1_RESPONSE = {
+    "Records": [],
+    "NextShardIterator": "AAAA-Shard-Iterator-2",
+    "MillisBehindLatest": 86346000,
+    "ResponseMetadata": {
+        "RequestId": "f66ad0f9-3ade-3f3e-a070-b1f5c9043ac3",
+        "HTTPStatusCode": 200,
+        "HTTPHeaders": {
+            "x-amzn-requestid": "f66ad0f9-3ade-3f3e-a070-b1f5c9043ac3",
+            "x-amz-id-2": "y6rEwcgmg3F05eSo8bEqr2OMvkyFQwc8vCjClMZRRfU0fEq2vbR1lD2FC7v0rp43b1LY1acrEaQWjnjOXgBq/DkW39Fbznto",
+            "date": "Fri, 11 Oct 2019 10:51:56 GMT",
+            "content-type": "application/x-amz-json-1.1",
+            "content-length": "91441",
+        },
+        "RetryAttempts": 0,
+    },
+}
