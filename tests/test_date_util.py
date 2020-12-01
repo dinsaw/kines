@@ -2,6 +2,7 @@ from kines import date_util
 from freezegun import freeze_time
 import datetime as dt
 
+
 @freeze_time("2020-11-01 7:00:00", tz_offset=+dt.timedelta(hours=5, minutes=30))
 def test_to_iterator_timestamp():
     print("now = ", dt.datetime.now())
