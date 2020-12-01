@@ -9,3 +9,6 @@ def test_to_iterator_timestamp():
     assert dt.datetime(2020, 11, 1, 5, 55) == date_util.to_iterator_timestamp("1h5m")
     assert dt.datetime(2020, 11, 1, 6, 55) == date_util.to_iterator_timestamp("5m")
     assert dt.datetime(2020, 11, 1, 6, 00) == date_util.to_iterator_timestamp("1h")
+    assert "2016-04-04T19:58:46.480-00:00" == date_util.to_iterator_timestamp(
+        "2016-04-04T19:58:46.480-00:00"
+    )

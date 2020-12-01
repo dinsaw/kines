@@ -33,7 +33,7 @@ def walk(
         get_shard_iterator_args["ShardIteratorType"] = "LATEST"
     elif timestamp:
         get_shard_iterator_args["ShardIteratorType"] = "AT_TIMESTAMP"
-        get_shard_iterator["Timestamp"] = date_util.to_iterator_timestamp(timestamp)
+        get_shard_iterator_args["Timestamp"] = date_util.to_iterator_timestamp(timestamp)
     else:
         get_shard_iterator_args["ShardIteratorType"] = "TRIM_HORIZON"
 
