@@ -11,7 +11,7 @@ from tests.aws_client_mocks import (
 
 def test_kines_help():
     runner = CliRunner()
-    result = runner.invoke(kines_cli.kines)
+    result = runner.invoke(kines_cli.kines, ["--help"])
     assert result.exit_code == 0
 
 
@@ -19,8 +19,7 @@ def test_kines_legends():
     runner = CliRunner()
     result = runner.invoke(kines_cli.kines, ["legends"])
     assert result.exit_code == 0
-    assert (
-        """Time = Converted Local Time
+    assert """Time = Converted Local Time
 IR = IncomingRecords
 IS = IncomingSize
 IR/Sec = IncomingRecords Per Sec
@@ -44,9 +43,7 @@ Status - Stream = Stream with Status
 
 📕 = Closed Shard
 📖 = Open Shard
-"""
-        == result.output
-    )
+""" == result.output
 
 
 def boto3_init():

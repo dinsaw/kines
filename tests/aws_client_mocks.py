@@ -17,22 +17,18 @@ class MockKinesisClient:
             "ResponseMetadata": {
                 "RequestId": "fc11d7e4-6b7d-f442-aa43-3049e19b80e5",
                 " \
-               "
-                "HTTPStatusCode": 200,
+               " "HTTPStatusCode": 200,
                 "HTTPHeaders": {
                     "x-amzn-requestid": " \
-               "
-                    "fc5bd7e4-6b7d-1111-aa43-3049e19b80e5",
+               " "fc5bd7e4-6b7d-1111-aa43-3049e19b80e5",
                     "x-amz-id-2": " \
-               "
-                    'yhU937PwchDLgTnJCxz+CX0z1u+hbl" \
+               " 'yhU937PwchDLgTnJCxz+CX0z1u+hbl" \
                "+zDgDIf5yLf0SdfoETI8Ovai8Nj1ctKTCrPrvmQrRvOOy7F9eKOlVQyfmf1xES560M',
                     "date": 'Thu, " \
                "10 Oct 2019 08:01:49 GMT',
                     "content-type": "application/x-amz-json-1.1",
                     " \
-               "
-                    "content-length": "453",
+               " "content-length": "453",
                 },
                 "RetryAttempts": 0,
             },
