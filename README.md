@@ -38,6 +38,18 @@ This command comes handy when you want to determine shard for a partition key. T
 
 ![Kines find](https://raw.githubusercontent.com/dinsaw/kines/master/demo/kines-find.png)
 
+#### Put records into Kinesis Stream
+- **Put a single record:**
+  `kines put <stream-name> -p <partition-key> -d '{"event": 1}'`
+  *(If `-p` is omitted, a random UUID is used as the partition key).*
+
+- **Put KPL-aggregated records:**
+  `kines put <stream-name> -a -p pk1 -d '{"event": 1}' -p pk2 -d '{"event": 2}'`
+
+- **Put from file:**
+  `kines put <stream-name> -f payload.json`
+  *(Accepts a raw payload file or a JSON array of `[{"partition_key": "...", "data": "..."}, ...]` with `-a` to aggregate).*
+
 #### Walk through kinesis records
 - `kines walk <stream-name> <shard-id> -s <sequence-number> -n <number-of-records-per-call>`
 
