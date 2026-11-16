@@ -11,7 +11,7 @@ from tests.aws_client_mocks import (
 
 def test_kines_help():
     runner = CliRunner()
-    result = runner.invoke(kines_cli.kines)
+    result = runner.invoke(kines_cli.kines, ["--help"])
     assert result.exit_code == 0
 
 
