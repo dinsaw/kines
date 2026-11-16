@@ -5,29 +5,28 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="kines",
-    version="1.1.0",
+    version="1.2.0",
     author="Dinesh Sawant",
     author_email="dineshsawant300@gmail.com",
     description="Friendly Command Line Interface for Amazon Kinesis Data Streams",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dinsaw/kines",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["tests*"]),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
-    py_modules=['kines_cli'],
+    python_requires=">=3.6",
     install_requires=[
-        'Click',
-        'boto3',
-        'terminaltables',
-        'aws-kinesis-agg',
+        "Click",
+        "boto3",
+        "terminaltables",
+        "aws-kinesis-agg",
     ],
-    entry_points='''
+    entry_points="""
         [console_scripts]
         kines=kines.kines_cli:kines
-    ''',
+    """,
 )
