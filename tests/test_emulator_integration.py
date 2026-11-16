@@ -163,3 +163,39 @@ def test_emulator_kines_report(emulator_stream):
         ["report", emulator_stream, "-h", "1", "-p", "15"],
     )
     assert result.exit_code == 0
+
+
+@pytest.mark.emulator
+def test_emulator_kines_put_single(emulator_stream):
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines,
+        ["put", emulator_stream, "-p", "live-pk-single", "-d", "Live Single Payload"],
+    )
+    assert result.exit_code == 0
+    assert "Successfully put 1 record" in result.output
+    assert "Live Single Payload" in result.output
+
+
+@pytest.mark.emulator
+def test_emulator_kines_put_aggregated(emulator_stream):
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines,
+        [
+            "put",
+            emulator_stream,
+            "-a",
+            "-p",
+            "live-agg-pk1",
+            "-d",
+            "Event payload 1",
+            "-p",
+            "live-agg-pk2",
+            "-d",
+            "Event payload 2",
+        ],
+    )
+    assert result.exit_code == 0
+    assert "Successfully put 1 aggregated record" in result.output
+    assert "Aggregated (KPL)" in result.output

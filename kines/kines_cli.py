@@ -1,5 +1,12 @@
 import click
-from kines import partition_key_util, metrics, stream_util, shard_util, read_util
+from kines import (
+    partition_key_util,
+    metrics,
+    stream_util,
+    shard_util,
+    read_util,
+    put_util,
+)
 
 
 @click.group()
@@ -105,6 +112,58 @@ def walk(
         follow,
         latest,
         timestamp,
+    )
+
+
+@click.argument("stream-name", required=True)
+@click.option(
+    "-p",
+    "--partition-key",
+    multiple=True,
+    help="Partition key. Can be specified multiple times for multiple records.",
+)
+@click.option(
+    "-d",
+    "--data",
+    multiple=True,
+    help="Record data. Can be specified multiple times for multiple records.",
+)
+@click.option(
+    "-f",
+    "--file",
+    type=click.Path(exists=True),
+    help="Path to file containing record data or a JSON array of records.",
+)
+@click.option(
+    "-a",
+    "--aggregate",
+    is_flag=True,
+    default=False,
+    help="Aggregate multiple records into a single KPL-compatible aggregated record.",
+)
+@click.option(
+    "-k",
+    "--explicit-hash-key",
+    default=None,
+    help="Explicit hash key to override partition key hash.",
+)
+@kines.command()
+def put(
+    stream_name: str,
+    partition_key: tuple,
+    data: tuple,
+    file: str,
+    aggregate: bool,
+    explicit_hash_key: str,
+):
+    """Put single or aggregated records into a Kinesis stream"""
+    put_util.put(
+        stream_name,
+        partition_keys=partition_key,
+        data_list=data,
+        file_path=file,
+        aggregate=aggregate,
+        explicit_hash_key=explicit_hash_key,
     )
 
 

@@ -24,6 +24,7 @@ setuptools.setup(
         'Click',
         'boto3',
         'terminaltables',
+        'aws-kinesis-agg',
     ],
     entry_points='''
         [console_scripts]

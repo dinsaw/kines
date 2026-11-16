@@ -5,6 +5,7 @@ from terminaltables import SingleTable
 import base64
 from textwrap import wrap
 import time
+import aws_kinesis_agg.deaggregator as deagg
 
 UTF_8 = "utf-8"
 WAIT_FOR_SECONDS = 2
@@ -53,20 +54,49 @@ def walk(
         )
 
         for record in records_response["Records"]:
-            parsed_data = get_parsed_data(record)
-            table_data = [
-                ["SequenceNumber", record["SequenceNumber"]],
-                ["ApproximateArrivalTimestamp", record["ApproximateArrivalTimestamp"]],
-                ["PartitionKey", record["PartitionKey"]],
-                ["EncryptionType", record.get("EncryptionType")],
-                ["Decoded Data", parsed_data],
-            ]
+            records_to_display = [record]
+            try:
+                deaggs = list(
+                    deagg.iter_deaggregate_records([record], data_format="Boto3")
+                )
+                if deaggs and deaggs[0].get("kinesis", {}).get("aggregated"):
+                    records_to_display = deaggs
+            except Exception:
+                pass
 
-            table = SingleTable(table_data)
-            max_width = table.column_max_width(1)
-            wrapped_string = "\n".join(wrap(parsed_data, max_width))
-            table.table_data[4][1] = wrapped_string
-            print(table.table)
+            for item in records_to_display:
+                if "kinesis" in item and item["kinesis"].get("aggregated"):
+                    k = item["kinesis"]
+                    parsed_data = get_parsed_data({"Data": k["data"]})
+                    sub_seq = f" (sub: {k.get('subSequenceNumber', 0)})"
+                    table_data = [
+                        ["SequenceNumber", f"{k['sequenceNumber']}{sub_seq}"],
+                        [
+                            "ApproximateArrivalTimestamp",
+                            k["approximateArrivalTimestamp"],
+                        ],
+                        ["PartitionKey", k["partitionKey"]],
+                        ["EncryptionType", record.get("EncryptionType")],
+                        ["Decoded Data", parsed_data],
+                    ]
+                else:
+                    parsed_data = get_parsed_data(item)
+                    table_data = [
+                        ["SequenceNumber", item["SequenceNumber"]],
+                        [
+                            "ApproximateArrivalTimestamp",
+                            item["ApproximateArrivalTimestamp"],
+                        ],
+                        ["PartitionKey", item["PartitionKey"]],
+                        ["EncryptionType", item.get("EncryptionType")],
+                        ["Decoded Data", parsed_data],
+                    ]
+
+                table = SingleTable(table_data)
+                max_width = table.column_max_width(1)
+                wrapped_string = "\n".join(wrap(parsed_data, max_width))
+                table.table_data[4][1] = wrapped_string
+                print(table.table)
 
         if not records_response["Records"]:
             click.echo("No records found for this api call 😔")
