@@ -64,6 +64,8 @@ The Kinesis record's data is decoded using `base64` decoder. You can press ⏎ t
 
 - Use `-f` option to poll records repeatedly. Example: `kines walk click-stream 000000000000 -l -f`
 
+- Use `-r` / `--raw` option to output only raw decoded payloads (one per record) without table formatting, ideal for piping into tools like `jq` or copying payloads. Example: `kines walk click-stream 000000000000 -r`
+
 #### Get report for Kinesis Stream
 
 The report command gives you statistics about your Kinesis Stream. Internally, this command calls [`get_metric_data`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.get_metric_data) of Boto3 Cloudwatch client.

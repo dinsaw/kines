@@ -19,6 +19,7 @@ def walk(
     follow=False,
     latest=False,
     timestamp=None,
+    raw=False,
 ):
     kinesis_client = boto3.client("kinesis")
 
@@ -40,7 +41,10 @@ def walk(
     else:
         get_shard_iterator_args["ShardIteratorType"] = "TRIM_HORIZON"
 
-    click.echo(f"Creating shard iterator with arguments = {get_shard_iterator_args}")
+    if not raw:
+        click.echo(
+            f"Creating shard iterator with arguments = {get_shard_iterator_args}"
+        )
     shard_iterator_response = kinesis_client.get_shard_iterator(
         **get_shard_iterator_args
     )
@@ -92,26 +96,44 @@ def walk(
                         ["Decoded Data", parsed_data],
                     ]
 
-                table = SingleTable(table_data)
-                max_width = table.column_max_width(1)
-                wrapped_string = "\n".join(wrap(parsed_data, max_width))
-                table.table_data[4][1] = wrapped_string
-                print(table.table)
+                if raw:
+                    click.echo(parsed_data.rstrip("\r\n"))
+                else:
+                    table = SingleTable(table_data)
+                    max_width = table.column_max_width(1)
+                    wrapped_string = "\n".join(wrap(parsed_data, max_width))
+                    table.table_data[4][1] = wrapped_string
+                    print(table.table)
 
         if not records_response["Records"]:
-            click.echo("No records found for this api call 😔")
+            if raw:
+                click.echo("No records found for this api call 😔", err=True)
+            else:
+                click.echo("No records found for this api call 😔")
 
         if follow:
-            click.echo(f"Waiting for {WAIT_FOR_SECONDS} seconds...")
+            if raw:
+                click.echo(f"Waiting for {WAIT_FOR_SECONDS} seconds...", err=True)
+            else:
+                click.echo(f"Waiting for {WAIT_FOR_SECONDS} seconds...")
             time.sleep(WAIT_FOR_SECONDS)
         else:
-            fetch_more = click.confirm("Fetch more records?", default=True)
+            if raw:
+                fetch_more = click.confirm(
+                    "Fetch more records?", default=True, err=True
+                )
+            else:
+                fetch_more = click.confirm("Fetch more records?", default=True)
 
         shard_iterator = records_response["NextShardIterator"]
 
 
 def get_parsed_data(kinesis_record):
+    data = kinesis_record.get("Data", b"")
     try:
-        return base64.b64decode(kinesis_record["Data"]).decode(UTF_8)
-    except:
-        return kinesis_record["Data"].decode(UTF_8)
+        return base64.b64decode(data).decode(UTF_8)
+    except Exception:
+        try:
+            return data.decode(UTF_8) if isinstance(data, bytes) else str(data)
+        except Exception:
+            return str(data)
