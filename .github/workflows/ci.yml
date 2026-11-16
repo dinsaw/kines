@@ -50,6 +50,18 @@ jobs:
           pip install pytest pytest-cov freezegun
           pip install -e .
 
+      - name: Install and start AWS Emulator
+        run: |
+          deb=$(mktemp -d)/aws-emulator.deb
+          curl -fsSLo "$deb" https://downloads.aws.com/aws-emulator/packages/aws-emulator/LTS/latest/aws-emulator_amd64.deb
+          sudo apt-get install -y "$deb"
+          mkdir -p "$HOME/.aws/emulator/9297"
+          nohup /opt/aws-emulator/bin/aws-emulator -p 9297 -t off > "$HOME/.aws/emulator/9297.log" 2>&1 &
+          for i in $(seq 30); do
+            curl -sf --cacert "$HOME/.aws/emulator/9297/ca.pem" https://127.0.0.1:9297/__admin/health && echo "AWS Emulator ready" && break
+            sleep 1
+          done
+
       - name: Run unit & integration tests
         run: |
           pytest --cov=kines --cov-report=xml tests/ -v

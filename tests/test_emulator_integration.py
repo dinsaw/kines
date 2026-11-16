@@ -44,10 +44,23 @@ def setup_emulator_env():
         os.environ["AWS_CA_BUNDLE"] = os.path.expanduser(
             f"~/.aws/emulator/{EMULATOR_PORT}/ca.pem"
         )
+        os.environ["AWS_SHARED_CREDENTIALS_FILE"] = os.path.expanduser(
+            f"~/.aws/emulator/{EMULATOR_PORT}/emulator_credentials"
+        )
+        os.environ["AWS_CONFIG_FILE"] = os.path.expanduser(
+            f"~/.aws/emulator/{EMULATOR_PORT}/config"
+        )
+        os.environ["AWS_EC2_METADATA_DISABLED"] = "true"
         os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
         os.environ["AWS_REGION"] = "us-east-1"
-        os.environ["AWS_ACCESS_KEY_ID"] = "test"
-        os.environ["AWS_SECRET_ACCESS_KEY"] = "test"
+        for var in [
+            "AWS_ACCESS_KEY_ID",
+            "AWS_SECRET_ACCESS_KEY",
+            "AWS_SESSION_TOKEN",
+            "AWS_PROFILE",
+            "AWS_DEFAULT_PROFILE",
+        ]:
+            os.environ.pop(var, None)
 
 
 @pytest.fixture(scope="module")
