@@ -204,3 +204,87 @@ def test_walk_at_timestamp(monkeypatch):
     expected_output = 'Creating shard iterator with arguments = {\'StreamName\': \'test-stream-walk\', \'ShardId\': \'shardId-000000000102\', \'ShardIteratorType\': \'AT_TIMESTAMP\', \'Timestamp\': \'2020-11-30T11:58:46.480-00:00\'}\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660693075522538255370376250918498 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:41.761000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "1"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660697997059549906526021357667938 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:45.180000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "2"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660702176316108314299215755871842 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:48.083000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "3"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660702634498993948243810408466018 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:48.407000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "4"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\n\x1b(0lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk\x1b(B\n\x1b(0x\x1b(B SequenceNumber              \x1b(0x\x1b(B 49600282682944895786267660705672529578639807063884039778 \x1b(0x\x1b(B\n\x1b(0tqqqqqqqqqqqqqqqqqqqqqqqqqqqqqnqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqu\x1b(B\n\x1b(0x\x1b(B ApproximateArrivalTimestamp \x1b(0x\x1b(B 2019-10-10 16:22:50.666000+05:30                         \x1b(0x\x1b(B\n\x1b(0x\x1b(B PartitionKey                \x1b(0x\x1b(B 4439109                                                  \x1b(0x\x1b(B\n\x1b(0x\x1b(B EncryptionType              \x1b(0x\x1b(B None                                                     \x1b(0x\x1b(B\n\x1b(0x\x1b(B Decoded Data                \x1b(0x\x1b(B {"event": "5"}                                           \x1b(0x\x1b(B\n\x1b(0mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj\x1b(B\nFetch more records? [Y/n]: n\n'
     assert expected_output == result.output
     assert 0 == result.exit_code
+
+
+def test_kines_error_no_region(monkeypatch):
+    from botocore.exceptions import NoRegionError
+
+    def mock_raise(*args, **kwargs):
+        raise NoRegionError()
+
+    monkeypatch.setattr(boto3, "client", mock_raise)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines, ["put", "Stream1", "-p", "p1", "-d", "asdasd"]
+    )
+    assert result.exit_code == 1
+    assert "Error: AWS region not configured" in result.output
+    assert "Traceback" not in result.output
+
+
+def test_kines_error_no_credentials(monkeypatch):
+    from botocore.exceptions import NoCredentialsError
+
+    def mock_raise(*args, **kwargs):
+        raise NoCredentialsError()
+
+    monkeypatch.setattr(boto3, "client", mock_raise)
+    runner = CliRunner()
+    result = runner.invoke(kines_cli.kines, ["ls"])
+    assert result.exit_code == 1
+    assert "Error: AWS credentials not found" in result.output
+    assert "Traceback" not in result.output
+
+
+def test_kines_error_resource_not_found(monkeypatch):
+    from botocore.exceptions import ClientError
+
+    def mock_raise(*args, **kwargs):
+        raise ClientError(
+            {
+                "Error": {
+                    "Code": "ResourceNotFoundException",
+                    "Message": "Stream Stream1 under account 123456 not found.",
+                }
+            },
+            "PutRecord",
+        )
+
+    monkeypatch.setattr(boto3, "client", mock_raise)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines, ["put", "Stream1", "-p", "p1", "-d", "asdasd"]
+    )
+    assert result.exit_code == 1
+    assert (
+        "Error: Resource not found: Stream Stream1 under account 123456 not found."
+        in result.output
+    )
+    assert "Traceback" not in result.output
+
+
+def test_kines_error_access_denied(monkeypatch):
+    from botocore.exceptions import ClientError
+
+    def mock_raise(*args, **kwargs):
+        raise ClientError(
+            {
+                "Error": {
+                    "Code": "AccessDeniedException",
+                    "Message": "User is not authorized to perform kinesis:PutRecord",
+                }
+            },
+            "PutRecord",
+        )
+
+    monkeypatch.setattr(boto3, "client", mock_raise)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines, ["put", "Stream1", "-p", "p1", "-d", "asdasd"]
+    )
+    assert result.exit_code == 1
+    assert (
+        "Error: Access denied: User is not authorized to perform kinesis:PutRecord"
+        in result.output
+    )
+    assert "Traceback" not in result.output

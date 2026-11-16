@@ -1,4 +1,13 @@
 import click
+from botocore.exceptions import (
+    BotoCoreError,
+    ClientError,
+    CredentialRetrievalError,
+    EndpointConnectionError,
+    NoCredentialsError,
+    NoRegionError,
+    PartialCredentialsError,
+)
 from kines import (
     partition_key_util,
     metrics,
@@ -9,7 +18,51 @@ from kines import (
 )
 
 
-@click.group()
+def format_aws_error(error: Exception) -> str:
+    if isinstance(error, NoRegionError):
+        return (
+            "AWS region not configured. Please set the AWS_DEFAULT_REGION environment "
+            "variable or configure a default region in ~/.aws/config."
+        )
+    if isinstance(error, NoCredentialsError):
+        return (
+            "AWS credentials not found. Please configure ~/.aws/credentials or "
+            "set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environment variables."
+        )
+    if isinstance(error, PartialCredentialsError):
+        return f"Partial AWS credentials found: {error}"
+    if isinstance(error, CredentialRetrievalError):
+        return f"Failed to retrieve AWS credentials: {error}"
+    if isinstance(error, EndpointConnectionError):
+        return f"Could not connect to AWS endpoint: {error}"
+    if isinstance(error, ClientError):
+        error_code = error.response.get("Error", {}).get("Code", "ClientError")
+        error_message = error.response.get("Error", {}).get("Message", str(error))
+        if error_code == "ResourceNotFoundException":
+            return f"Resource not found: {error_message}"
+        if error_code == "AccessDeniedException":
+            return f"Access denied: {error_message}"
+        if error_code == "ResourceInUseException":
+            return f"Resource in use: {error_message}"
+        if error_code == "InvalidArgumentException":
+            return f"Invalid argument: {error_message}"
+        if error_code == "ProvisionedThroughputExceededException":
+            return f"Provisioned throughput exceeded: {error_message}"
+        return f"AWS Error ({error_code}): {error_message}"
+    if isinstance(error, BotoCoreError):
+        return f"AWS Error: {error}"
+    return str(error)
+
+
+class KinesGroup(click.Group):
+    def invoke(self, ctx):
+        try:
+            return super().invoke(ctx)
+        except (BotoCoreError, ClientError) as e:
+            raise click.ClickException(format_aws_error(e))
+
+
+@click.group(cls=KinesGroup)
 def kines():
     """Friendly Command Line Interface for Amazon Kinesis Data Streams"""
 
