@@ -156,6 +156,19 @@ def test_emulator_kines_walk(emulator_stream):
 
 
 @pytest.mark.emulator
+def test_emulator_kines_walk_raw(emulator_stream):
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines,
+        ["walk", emulator_stream, "000000000000", "-r"],
+        input="n\n",
+    )
+    assert result.exit_code == 0
+    assert "SequenceNumber" not in result.stdout
+    assert "Creating shard iterator" not in result.stdout
+
+
+@pytest.mark.emulator
 def test_emulator_kines_report(emulator_stream):
     runner = CliRunner()
     result = runner.invoke(

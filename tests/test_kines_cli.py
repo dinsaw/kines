@@ -206,6 +206,35 @@ def test_walk_at_timestamp(monkeypatch):
     assert 0 == result.exit_code
 
 
+def test_walk_raw(monkeypatch):
+    monkeypatch.setattr(boto3, "client", mock_get_kinesis_client)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines, ["walk", "test-stream-walk", "000000000102", "-r"], input="n\n"
+    )
+    assert result.exit_code == 0
+    assert (
+        result.stdout
+        == '{"event": "1"}\n{"event": "2"}\n{"event": "3"}\n{"event": "4"}\n{"event": "5"}\n'
+    )
+    assert "Fetch more records?" in result.output
+    assert "SequenceNumber" not in result.stdout
+    assert "Creating shard iterator" not in result.stdout
+
+
+def test_walk_raw_empty_records(monkeypatch):
+    monkeypatch.setattr(boto3, "client", empty_record_mock_get_kinesis_client)
+    runner = CliRunner()
+    result = runner.invoke(
+        kines_cli.kines,
+        ["walk", "test-stream-walk", "000000000102", "--raw"],
+        input="n\n",
+    )
+    assert result.exit_code == 0
+    assert result.stdout == ""
+    assert "No records found for this api call" in result.output
+
+
 def test_kines_error_no_region(monkeypatch):
     from botocore.exceptions import NoRegionError
 

@@ -144,6 +144,13 @@ def report(stream_name: str, period: int, hours: int):
     "--timestamp",
     help="Start from this timestamp. Creates AT_TIMESTAMP shard iterator. You can specify timestamp as '2016-04-04T19:58:46.480-00:00' or with short hand as '1h10m' i.e. 1 hour 10 minutes ago, '10m' i.e. 10 minutes ago, '1h' i.e. 1 hour ago.",
 )
+@click.option(
+    "-r",
+    "--raw",
+    default=False,
+    is_flag=True,
+    help="Print raw decoded record data without table formatting",
+)
 @click.argument("shard-id", required=True)
 @click.argument("stream-name", required=True)
 @kines.command()
@@ -155,6 +162,7 @@ def walk(
     follow: bool,
     latest: bool,
     timestamp: str,
+    raw: bool,
 ):
     """Walk through Kinesis Records. By default creates TRIM_HORIZON iterator."""
     read_util.walk(
@@ -165,6 +173,7 @@ def walk(
         follow,
         latest,
         timestamp,
+        raw,
     )
 
 
